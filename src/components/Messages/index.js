@@ -1,35 +1,53 @@
-import React, { Component } from 'react'
-import TextMessage from './TextMessage'
-import EmojiMessage from './EmojiMessage'
-import chatIconUrl from './../../assets/chat-icon.svg'
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-class Message extends Component {
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  _renderMessageOfType(type) {
-    switch(type) {
+import React, { Component } from 'react';
+import TextMessage from './TextMessage';
+import LinkMessage from './LinkMessage';
+import EmojiMessage from './EmojiMessage';
+import chatIconUrl from './../../assets/chat-icon.svg';
+
+var Message = function (_Component) {
+  _inherits(Message, _Component);
+
+  function Message() {
+    _classCallCheck(this, Message);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+
+  Message.prototype._renderMessageOfType = function _renderMessageOfType(type) {
+    console.log('type0', this.props.message.data.text)
+    switch (type) {
       case 'text':
-        return <TextMessage {...this.props.message} />
+        return React.createElement(TextMessage, this.props.message);
       case 'emoji':
-        return <EmojiMessage {...this.props.message} />
+        return React.createElement(EmojiMessage, this.props.message);
+      case 'link':
+        return React.createElement(LinkMessage, this.props.message);
     }
-  }
+  };
 
-  render () {
-    let contentClassList = [
-      "sc-message--content",
-      (this.props.message.author === "me" ? "sent" : "received")
-    ];
-    return (
-      <div className="sc-message">
-        <div className={contentClassList.join(" ")}>
-          <div className="sc-message--avatar" style={{
-            backgroundImage: `url(${chatIconUrl})`
-          }}></div>
-          {this._renderMessageOfType(this.props.message.type)}
-        </div>
-      </div>)
-  }
-}
+  Message.prototype.render = function render() {
+    var contentClassList = ["sc-message--content", this.props.message.author === "me" ? "sent" : "received"];
+    return React.createElement(
+      'div',
+      { className: 'sc-message' },
+      React.createElement(
+        'div',
+        { className: contentClassList.join(" ") },
+        React.createElement('div', { className: 'sc-message--avatar', style: {
+            backgroundImage: 'url(' + chatIconUrl + ')'
+          } }),
+        this._renderMessageOfType(this.props.message.type)
+      )
+    );
+  };
 
-export default Message
+  return Message;
+}(Component);
+
+export default Message;
